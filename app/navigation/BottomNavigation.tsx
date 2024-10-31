@@ -12,9 +12,6 @@ import Components from "../screens/Components/Components";
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomNavigation = () => {
-  const theme = useTheme();
-  const { colors }: { colors: any } = theme;
-
   return (
     <Tab.Navigator
       initialRouteName="Home"

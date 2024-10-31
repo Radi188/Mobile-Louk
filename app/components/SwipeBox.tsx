@@ -15,7 +15,7 @@ import { IMAGES } from "../constants/Images";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class SwipeBox extends Component {
-  rightSwipe = (progress, dragX) => {
+  rightSwipe = (progress: any, dragX: any) => {
     const scale = dragX.interpolate({
       inputRange: [45, 90],
       outputRange: [0, 1],

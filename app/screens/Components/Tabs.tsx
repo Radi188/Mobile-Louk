@@ -103,7 +103,7 @@ const Tabs = () => {
               </View>
             </View>
 
-            <View
+            {/* <View
               style={[GlobalStyleSheet.card, { backgroundColor: colors.card }]}
             >
               <View
@@ -168,7 +168,7 @@ const Tabs = () => {
                   </View>
                 </ScrollView>
               </View>
-            </View>
+            </View> */}
           </View>
         </ScrollView>
       </View>

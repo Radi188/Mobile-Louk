@@ -53,7 +53,7 @@ const ImageSwiper = ({ data }: any) => {
           const scale = interpolate(
             x.value,
             [(index - 2) * SIZE, (index - 1) * SIZE, index * SIZE],
-            [0.8, 1, 0.8],
+            [0.8, 1, 0.8]
           );
           return {
             transform: [{ scale }],

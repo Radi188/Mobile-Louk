@@ -7,378 +7,335 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Animated,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { GlobalStyleSheet } from "../../constants/StyleSheet";
 import { IMAGES } from "../../constants/Images";
-import { COLORS, FONTS } from "../../constants/theme";
-import { Feather } from "@expo/vector-icons";
+import { COLORS, FONTS, SIZES } from "../../constants/theme";
 import { useDispatch } from "react-redux";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigation/RootStackParamList";
-import { addTowishList } from "../../redux/reducer/wishListReducer";
-import ImageSwiper from "../../components/ImageSwiper";
-import Cardstyle4 from "../../components/Card/Cardstyle4";
 import { openDrawer } from "../../redux/actions/drawerAction";
+import BasicPieChart from "../../components/Charts/PieChart";
+import BasicBarChart from "../../components/Charts/BarChart";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import SwipeBox from "../../components/SwipeBox";
+import ClassicTable from "../../components/Tables/ClassicTable";
+import TabButtonStyle1 from "../../components/Tabs/TabButtonStyle1";
+import BasicLineChart from "../../components/Charts/LineChart";
+import Card from "../Components/Card";
 
-const ArrivalData = [
+const SwipeData = [
   {
-    id: "1",
-    title: "Beverages",
-    subtitle: "41 Menus",
-    image: IMAGES.cup,
+    image: IMAGES.small1,
+    title: "New Arrivals Alert!",
+    date: "15 July 2024",
   },
   {
-    id: "2",
-    title: "Foods",
-    subtitle: "37 Menus",
-    image: IMAGES.hamburger,
+    image: IMAGES.small2,
+    title: "Flash Sale Announcement",
+    date: "15 July 2024",
   },
   {
-    id: "3",
-    title: "Beverages",
-    subtitle: "41 Menus",
-    image: IMAGES.cup,
+    image: IMAGES.brand5,
+    title: "Exclusive Discounts Inside",
+    date: "15 July 2024",
   },
   {
-    id: "4",
-    title: "Foods",
-    subtitle: "37 Menus",
-    image: IMAGES.hamburger,
+    image: IMAGES.small4,
+    title: "Limited Stock - Act Fast!",
+    date: "15 July 2024",
+  },
+  {
+    image: IMAGES.small5,
+    title: "Get Ready to Shop",
+    date: "15 July 2024",
+  },
+  {
+    image: IMAGES.brand2,
+    title: "Don't Miss Out on Savings",
+    date: "15 July 2024",
+  },
+  {
+    image: IMAGES.small7,
+    title: "Flash Sale Announcement",
+    date: "15 July 2024",
+  },
+  {
+    image: IMAGES.brand3,
+    title: "Don't Miss Out on Savings",
+    date: "15 July 2024",
+  },
+  {
+    image: IMAGES.brand1,
+    title: "Get Ready to Shop",
+    date: "15 July 2024",
   },
 ];
 
-const CardStyleData = [
+const CardData = [
   {
-    id: "0",
-    image: IMAGES.item1,
-    title: "Hot Creamy Cappuccino Latte Ombe",
-    price: "$12.6",
-    countnumber: "50 Pts",
+    title: "Income This Month",
+    amount: "2286.45",
+    percentage: "10.2",
   },
   {
-    id: "1",
-    image: IMAGES.item2,
-    title: "Creamy Mocha Ome Coffee",
-    price: "$13.6",
-    countnumber: "50 Pts",
+    title: "Expense This Month",
+    amount: "1243.22",
+    percentage: "-17.2",
   },
   {
-    id: "2",
-    image: IMAGES.item3,
-    title: "Original Latte Ombe Hot Coffee",
-    price: "$12.6",
-    countnumber: "50 Pts",
-  },
-];
-
-const SwiperData = [
-  {
-    id: "1",
-    image: IMAGES.item11,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
+    title: "Total AR This Month",
+    amount: "8902.82",
+    percentage: "20.9",
   },
   {
-    id: "2",
-    image: IMAGES.item12,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
-  },
-  {
-    id: "3",
-    image: IMAGES.item11,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
-  },
-  {
-    id: "4",
-    image: IMAGES.item12,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
-  },
-  {
-    id: "5",
-    image: IMAGES.item11,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
-  },
-  {
-    id: "6",
-    image: IMAGES.item12,
-    title: "Creamy Ice Coffe",
-    price: "5.8",
-    discount: "$8.0",
+    title: "Total AP This Month",
+    amount: "3908.92",
+    percentage: "-8.3",
   },
 ];
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, "Home">;
 
 export const Home = ({ navigation }: HomeScreenProps) => {
-  // const wishList = useSelector((state:any) => state.wishList.wishList);
-  // console.log(wishList);
-
   const dispatch = useDispatch();
-
+  const [lists, setLists] = useState<any>(SwipeData);
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
+  const scrollViewHome = useRef<any>();
 
-  const addItemToWishList = (data: any) => {
-    dispatch(addTowishList(data));
-  };
+  const buttons = ["Pie Chart", "Line Chart", "Bar Chart"];
+
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const onCLick = (i: any) =>
+    scrollViewHome.current.scrollTo({ x: i * SIZES.width - 60 });
 
   return (
-    <View style={{ backgroundColor: colors.card, flex: 1 }}>
-      <View style={{}}>
-        <View
-          style={[
-            GlobalStyleSheet.container,
-            { paddingHorizontal: 30, padding: 0, paddingTop: 30 },
-          ]}
-        >
-          <View style={[GlobalStyleSheet.flex]}>
-            <View>
-              <Text
-                style={{
-                  ...FONTS.fontRegular,
-                  fontSize: 14,
-                  color: colors.title,
-                }}
-              >
-                Good Morning
-              </Text>
-              <Text
-                style={{
-                  ...FONTS.fontSemiBold,
-                  fontSize: 24,
-                  color: colors.title,
-                }}
-              >
-                Williams
-              </Text>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Notification")}
-                activeOpacity={0.5}
-                style={[GlobalStyleSheet.background3, {}]}
-              >
-                <Image
-                  style={[
-                    GlobalStyleSheet.image3,
-                    { tintColor: theme.dark ? COLORS.card : "#5F5F5F" },
-                  ]}
-                  source={IMAGES.Notification}
-                />
-                <View
-                  style={[
-                    styles.notifactioncricle,
-                    {
-                      backgroundColor: colors.card,
-                    },
-                  ]}
-                >
-                  <View
-                    style={{
-                      height: 13,
-                      width: 13,
-                      borderRadius: 13,
-                      backgroundColor: COLORS.primary,
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                //onPress={() => navigation.openDrawer()}
-                onPress={() => dispatch(openDrawer())}
-                style={[GlobalStyleSheet.background3, {}]}
-              >
-                <Image
-                  style={[
-                    GlobalStyleSheet.image3,
-                    { tintColor: theme.dark ? COLORS.card : "#5F5F5F" },
-                  ]}
-                  source={IMAGES.grid6}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={[
-            GlobalStyleSheet.container,
-            { padding: 0, paddingHorizontal: 30, paddingTop: 15 },
-          ]}
-        >
+    <View style={{ backgroundColor: colors.card, flex: 1, paddingBottom: 80 }}>
+      <View
+        style={[
+          GlobalStyleSheet.container,
+          { paddingHorizontal: 30, paddingTop: 10 },
+        ]}
+      >
+        <View style={[GlobalStyleSheet.flex]}>
           <View>
-            <TextInput
-              placeholder="Search Best items for You"
-              style={[
-                styles.TextInput,
-                { color: COLORS.title, backgroundColor: "#FAFAFA" },
-              ]}
-              placeholderTextColor={"#929292"}
-            />
-            <View style={{ position: "absolute", top: 15, right: 20 }}>
-              <Feather name="search" size={24} color={"#C9C9C9"} />
-            </View>
-          </View>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <View style={[GlobalStyleSheet.container, { padding: 0 }]}>
-            <ImageSwiper data={SwiperData} />
-          </View>
-        </View>
-        <View
-          style={[
-            GlobalStyleSheet.container,
-            { paddingHorizontal: 0, paddingTop: 0 },
-          ]}
-        >
-          <View
-            style={[
-              GlobalStyleSheet.flex,
-              { paddingHorizontal: 30, paddingTop: 15 },
-            ]}
-          >
             <Text
-              style={[
-                styles.brandsubtitle3,
-                { fontSize: 18, color: colors.title },
-              ]}
+              style={{
+                ...FONTS.fontRegular,
+                fontSize: 14,
+                color: colors.title,
+              }}
             >
-              Categories
+              Good Morning
+            </Text>
+            <Text
+              style={{
+                ...FONTS.fontSemiBold,
+                fontSize: 24,
+                color: colors.title,
+              }}
+            >
+              Williams
             </Text>
           </View>
-          <View
-            style={{
-              marginHorizontal: -15,
-              paddingHorizontal: 15,
-              paddingTop: 15,
-            }}
-          >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 30 }}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Notification")}
+              activeOpacity={0.5}
+              style={[GlobalStyleSheet.background3, {}]}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 15,
-                  marginRight: 10,
-                  marginVertical: 20,
-                }}
-              >
-                {ArrivalData.map((data: any, index) => {
-                  return (
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => {
-                        navigation.navigate("Products");
-                      }}
-                      key={index}
-                      style={[
-                        styles.arrivaldata,
-                        {
-                          backgroundColor: theme.dark
-                            ? colors.background
-                            : colors.card,
-                          borderColor: "#EFEFEF",
-                          shadowColor: "rgba(4,118,78,.6)",
-                        },
-                      ]}
-                    >
-                      <View
-                        style={[
-                          GlobalStyleSheet.flexcenter,
-                          { gap: 20, justifyContent: "flex-start" },
-                        ]}
-                      >
-                        <Image
-                          style={[GlobalStyleSheet.image3]}
-                          source={data.image}
-                        />
-                        <View>
-                          <Text
-                            style={{
-                              ...FONTS.fontMedium,
-                              fontSize: 16,
-                              color: colors.title,
-                            }}
-                          >
-                            {data.title}
-                          </Text>
-                          <Text
-                            style={{
-                              ...FONTS.fontRegular,
-                              fontSize: 14,
-                              color: COLORS.primary,
-                            }}
-                          >
-                            {data.subtitle}
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </ScrollView>
-          </View>
-        </View>
-        <View
-          style={[
-            GlobalStyleSheet.container,
-            { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 10 },
-          ]}
-        >
-          <View style={[GlobalStyleSheet.flex, { paddingHorizontal: 30 }]}>
-            <Text
-              style={[
-                styles.brandsubtitle3,
-                { fontSize: 18, color: colors.title },
-              ]}
-            >
-              Featured Beverages
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Products")}>
-              <Text
+              <Image
                 style={[
-                  styles.brandsubtitle3,
-                  { fontSize: 16, color: COLORS.primary },
+                  GlobalStyleSheet.image3,
+                  { tintColor: theme.dark ? COLORS.card : "#5F5F5F" },
+                ]}
+                source={IMAGES.Notification}
+              />
+              <View
+                style={[
+                  styles.notifactioncricle,
+                  {
+                    backgroundColor: colors.card,
+                  },
                 ]}
               >
-                More
-              </Text>
+                <View
+                  style={{
+                    height: 13,
+                    width: 13,
+                    borderRadius: 13,
+                    backgroundColor: COLORS.primary,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              //onPress={() => navigation.openDrawer()}
+              onPress={() => dispatch(openDrawer())}
+              style={[GlobalStyleSheet.background3, {}]}
+            >
+              <Image
+                style={[
+                  GlobalStyleSheet.image3,
+                  { tintColor: theme.dark ? COLORS.card : "#5F5F5F" },
+                ]}
+                source={IMAGES.grid6}
+              />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={[GlobalStyleSheet.container, { paddingHorizontal: 30 }]}>
-          {CardStyleData.map((data: any, index: any) => {
+      </View>
+      <View style={{ marginVertical: 0 }}>
+        <View
+          style={[
+            GlobalStyleSheet.cardBody,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            },
+          ]}
+        >
+          {CardData.map((item, index: number) => {
             return (
-              <View key={index} style={{ marginBottom: 40 }}>
-                <Cardstyle4
-                  id={data.id}
-                  image={data.image}
-                  price={data.price}
-                  countnumber={data.countnumber}
-                  title={data.title}
-                  onPress={() => navigation.navigate("ProductsDetails")}
-                  onPress5={() => addItemToWishList(data)}
+              <View style={{ marginBottom: 15 }} key={index}>
+                <Card
+                  title={item.title}
+                  amount={item.amount}
+                  percentage={item.percentage}
                 />
               </View>
             );
           })}
+        </View>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={[GlobalStyleSheet.card, { backgroundColor: colors.card }]}>
+          <View style={GlobalStyleSheet.cardBody}>
+            <View style={{ paddingBottom: 15 }}>
+              <TabButtonStyle1
+                buttons={buttons}
+                onClick={onCLick}
+                scrollX={scrollX}
+              />
+            </View>
+            <ScrollView
+              ref={scrollViewHome}
+              horizontal
+              pagingEnabled
+              scrollEventThrottle={16}
+              scrollEnabled={false}
+              decelerationRate="fast"
+              showsHorizontalScrollIndicator={false}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: false }
+              )}
+            >
+              <View style={[styles.tabBody]}>
+                <View
+                  style={[
+                    GlobalStyleSheet.card,
+                    { backgroundColor: colors.card },
+                  ]}
+                >
+                  <BasicPieChart />
+                </View>
+              </View>
+
+              <View style={[styles.tabBody]}>
+                <BasicLineChart />
+              </View>
+
+              <View style={[styles.tabBody]}>
+                <BasicBarChart />
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+        <View style={GlobalStyleSheet.container}>
+          <View
+            style={[
+              GlobalStyleSheet.cardHeader,
+              {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: -30,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.brandsubtitle2,
+                { fontSize: 16, color: colors.title },
+              ]}
+            >
+              Recent Transaction
+            </Text>
+            <TouchableOpacity>
+              <Text
+                style={[
+                  styles.brandsubtitle3,
+                  { fontSize: 12, color: COLORS.primary, padding: 3 },
+                ]}
+              >
+                View All
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <GestureHandlerRootView style={{ paddingHorizontal: 15 }}>
+            {lists.map((data: any, index: any) => {
+              return (
+                <View
+                  style={{
+                    marginBottom: 5,
+                    marginHorizontal: -10,
+                    // paddingHorizontal: 15,
+                  }}
+                  key={index}
+                >
+                  <SwipeBox data={data} colors={colors} />
+                </View>
+              );
+            })}
+          </GestureHandlerRootView>
+          <View
+            style={[
+              GlobalStyleSheet.cardHeader,
+              {
+                borderBottomColor: COLORS.inputborder,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.brandsubtitle2,
+                { fontSize: 16, color: colors.title },
+              ]}
+            >
+              Top Expense
+            </Text>
+            <TouchableOpacity>
+              <Text
+                style={[
+                  styles.brandsubtitle3,
+                  { fontSize: 12, color: COLORS.primary, padding: 3 },
+                ]}
+              >
+                View All
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ClassicTable />
         </View>
       </ScrollView>
     </View>
@@ -386,6 +343,10 @@ export const Home = ({ navigation }: HomeScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  tabBody: {
+    width: SIZES.width - 35,
+    marginTop: 15,
+  },
   notifactioncricle: {
     height: 16,
     width: 16,

@@ -17,7 +17,6 @@ const Charts = () => {
       <View
         style={{
           flex: 1,
-          //backgroundColor:colors.background,
         }}
       >
         <Header title={"Charts"} leftIcon={"back"} titleRight />

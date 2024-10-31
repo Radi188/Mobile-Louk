@@ -102,9 +102,7 @@ const MyCart = ({ navigation }: MyCartScreenProps) => {
           style={[
             GlobalStyleSheet.container,
             {
-              backgroundColor: colors.card,
-              borderBottomWidth: 1,
-              borderBlockColor: COLORS.borderColor,
+              marginBottom: 85,
             },
           ]}
         >

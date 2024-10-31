@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { IMAGES } from "../constants/Images";
@@ -19,50 +19,56 @@ const MenuItems = [
   {
     id: "1",
     icon: IMAGES.producta,
-    name: "Products",
+    name: "Item Stock",
     navigate: "Products",
   },
   {
     id: "2",
-    icon: IMAGES.components,
-    name: "Components",
+    icon: IMAGES.Category,
+    name: "Category",
     navigate: "Components",
   },
   {
     id: "3",
-    icon: IMAGES.star,
-    name: "Featured",
+    icon: IMAGES.deliverytruck2,
+    name: "Purchase Stock",
     navigate: "Writereview",
   },
   {
     id: "4",
-    icon: IMAGES.heart,
-    name: "Wishlist",
+    icon: IMAGES.Bag,
+    name: "Other Expense",
     navigate: "Wishlist",
-  },
-  {
-    id: "5",
-    icon: IMAGES.order,
-    name: "My Orders",
-    navigate: "Myorder",
   },
   {
     id: "6",
     icon: IMAGES.shopping,
-    name: "My Cart",
+    name: "Transaction",
     navigate: "MyCart",
   },
   {
-    id: "7",
-    icon: IMAGES.chat,
-    name: "Chat List",
-    navigate: "Chat",
+    id: "8",
+    icon: IMAGES.wallet,
+    name: "Account Recievable",
+    navigate: "Profile",
   },
   {
-    id: "8",
-    icon: IMAGES.user3,
-    name: "Profile",
+    id: "11",
+    icon: IMAGES.transfer,
+    name: "Account Payable",
     navigate: "Profile",
+  },
+  {
+    id: "10",
+    icon: IMAGES.user3,
+    name: "Agency Coin",
+    navigate: "Profile",
+  },
+  {
+    id: "7",
+    icon: IMAGES.folder,
+    name: "Report",
+    navigate: "Chat",
   },
   {
     id: "9",
@@ -75,27 +81,26 @@ const MenuItems = [
 const DrawerMenu = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const { colors }: { colors: any } = theme;
-
-  const [active, setactive] = useState(MenuItems[0]);
-
   const navigation = useNavigation<any>();
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
+    >
       <View
         style={{
           flex: 1,
           backgroundColor: colors.background,
           paddingHorizontal: 15,
-          paddingVertical: 15,
+          paddingVertical: 30,
         }}
       >
         <View
           style={{
             alignItems: "center",
-            paddingVertical: 30,
+            paddingVertical: 15,
             paddingRight: 10,
           }}
         >
@@ -170,8 +175,8 @@ const DrawerMenu = () => {
                           data.id == "9"
                             ? "#FF8484"
                             : data.id === "0"
-                              ? COLORS.primary
-                              : "#BDBDBD",
+                            ? COLORS.primary
+                            : "#BDBDBD",
                         //marginRight:14,
                         resizeMode: "contain",
                       }}
@@ -195,12 +200,12 @@ const DrawerMenu = () => {
             );
           })}
         </View>
-        <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ paddingTop: 15, paddingHorizontal: 5 }}>
           <ThemeBtn />
         </View>
-        <View style={{ paddingVertical: 15, paddingHorizontal: 10 }}>
+        <View style={{ paddingTop: 30, paddingHorizontal: 10 }}>
           <Text style={{ ...FONTS.fontMedium, fontSize: 16, color: "#868686" }}>
-            Ombe Coffee App
+            Louk Coin App
           </Text>
           <Text style={{ ...FONTS.fontMedium, fontSize: 12, color: "#B1B1C3" }}>
             App Version 1.0.0

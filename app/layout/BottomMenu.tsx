@@ -27,8 +27,6 @@ const BottomMenu = ({ state, navigation, descriptors }: Props) => {
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
 
-  console.log("first");
-
   const [tabWidth, setWidth] = useState(wp("100%"));
 
   const tabWD =
@@ -60,14 +58,16 @@ const BottomMenu = ({ state, navigation, descriptors }: Props) => {
   return (
     <View
       style={{
-        height: 60,
+        height: 70,
         flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
         position: "absolute",
         //width:'100%',
         width: "auto",
         left: 10,
         right: 10,
-        bottom: 10,
+        bottom: 20,
         borderRadius: 20,
         shadowColor: "rgba(0,0,0,.6)",
         shadowOffset: {
@@ -77,7 +77,6 @@ const BottomMenu = ({ state, navigation, descriptors }: Props) => {
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
         elevation: 8,
-        //backgroundColor:'green'
         backgroundColor: theme.dark ? "rgba(0,9,9,.6)" : colors.card,
       }}
     >

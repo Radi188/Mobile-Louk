@@ -25,16 +25,16 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+
   return (
     <SafeAreaProvider>
       <View
         style={{
           flex: 1,
-          paddingTop: 25,
-          // backgroundColor: COLORS.darkBackground,
+          paddingTop: 50,
         }}
       >
-        <StatusBar style="dark" />
+        <StatusBar style={"dark"} />
         <Provider store={store}>
           <Route />
         </Provider>
