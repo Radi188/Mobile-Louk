@@ -32,7 +32,8 @@ const Select = ({ sheet, value, defaultText, modal }: Props) => {
         }}
       >
         <Text
-          style={[FONTS.font, { color: colors.title, lineHeight: 16, flex: 1 }]}
+          numberOfLines={1}
+          style={[FONTS.font, { color: colors.title, flex: 1, fontSize: 16 }]}
         >
           {value ? value : defaultText ? defaultText : "Select type"}
         </Text>

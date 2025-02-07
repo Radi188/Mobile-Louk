@@ -61,7 +61,12 @@ const Profile = ({ navigation }: ProfileScreenProps) => {
       <Header title="Profile" leftIcon={"back"} rightIcon2={"Edit"} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 50,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <View
           style={[
@@ -138,104 +143,6 @@ const Profile = ({ navigation }: ProfileScreenProps) => {
                 </View>
               );
             })}
-          </View>
-        </View>
-        <View style={[GlobalStyleSheet.container, { padding: 0 }]}>
-          <View style={[GlobalStyleSheet.flex, { paddingHorizontal: 30 }]}>
-            <Text
-              style={[
-                styles.brandsubtitle3,
-                { fontSize: 18, color: colors.title },
-              ]}
-            >
-              Most Ordered
-            </Text>
-          </View>
-          <View
-            style={{
-              marginHorizontal: -15,
-              paddingHorizontal: 15,
-              paddingTop: 25,
-            }}
-          >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 30 }}
-            >
-              <View style={[styles.profilecard]}>
-                {profilecartData.map((data: any, index) => {
-                  return (
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => navigation.navigate("ProductsDetails")}
-                      key={index}
-                      style={[
-                        styles.arrivaldata,
-                        {
-                          backgroundColor: COLORS.primary,
-                          borderColor: "#EFEFEF",
-                        },
-                      ]}
-                    >
-                      <View
-                        style={[
-                          GlobalStyleSheet.flexcenter,
-                          { gap: 20, justifyContent: "space-around" },
-                        ]}
-                      >
-                        <Image
-                          style={{
-                            height: 100,
-                            width: 100,
-                            resizeMode: "contain",
-                          }}
-                          source={data.image}
-                        />
-                        <View>
-                          <Text
-                            numberOfLines={1}
-                            style={{
-                              ...FONTS.fontMedium,
-                              fontSize: 16,
-                              color: COLORS.card,
-                            }}
-                          >
-                            {data.title}
-                          </Text>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                              gap: 10,
-                            }}
-                          >
-                            <Text
-                              style={{
-                                ...FONTS.fontRegular,
-                                fontSize: 14,
-                                color: COLORS.card,
-                                opacity: 0.5,
-                              }}
-                            >
-                              {data.subtitle}
-                            </Text>
-                            <Image
-                              style={{
-                                height: 16,
-                                width: 16,
-                                resizeMode: "contain",
-                              }}
-                              source={IMAGES.share}
-                            />
-                          </View>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </ScrollView>
           </View>
         </View>
       </ScrollView>

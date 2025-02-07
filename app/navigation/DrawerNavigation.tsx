@@ -12,8 +12,6 @@ const DrawerNavigation = () => {
 
   const dispatch = useDispatch();
 
-  const { colors } = useTheme();
-
   return (
     <>
       <View

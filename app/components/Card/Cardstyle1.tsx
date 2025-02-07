@@ -14,6 +14,7 @@ type Props = {
   discount?: string;
   onPress?: (e: any) => void;
   onPress2?: (e: any) => void;
+  quantity: string;
 };
 
 const Cardstyle1 = ({
@@ -24,6 +25,7 @@ const Cardstyle1 = ({
   price,
   onPress,
   onPress2,
+  quantity,
 }: Props) => {
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
@@ -93,50 +95,10 @@ const Cardstyle1 = ({
                 ...FONTS.fontSemiBold,
                 fontSize: 18,
                 color: colors.title,
+                marginTop: 10,
               }}
             >
               {price}
-            </Text>
-            {discount ? (
-              <Text
-                style={{
-                  ...FONTS.fontMedium,
-                  fontSize: 16,
-                  color: "#6CAE97",
-                  textDecorationLine: "line-through",
-                }}
-              >
-                {discount}
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  ...FONTS.fontMedium,
-                  fontSize: 16,
-                  color: "#6CAE97",
-                  textDecorationLine: "line-through",
-                }}
-              >
-                100.3
-              </Text>
-            )}
-          </View>
-          <View
-            style={[{ flexDirection: "row", alignItems: "center", gap: 5 }]}
-          >
-            <Image
-              source={IMAGES.Star4}
-              style={{
-                height: 15,
-                width: 15,
-                resizeMode: "contain",
-                tintColor: "#FFA048",
-              }}
-            />
-            <Text
-              style={{ ...FONTS.fontRegular, fontSize: 14, color: "#6CAE97" }}
-            >
-              (2K Review)
             </Text>
           </View>
         </View>
@@ -145,7 +107,7 @@ const Cardstyle1 = ({
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            marginTop: 20,
+            marginTop: 10,
           }}
         >
           <CheckoutItems />

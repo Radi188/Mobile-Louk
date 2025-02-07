@@ -42,7 +42,7 @@ const ProductsDetails = ({ navigation }: ProductsDetailsScreenProps) => {
         title: "Hot Creamy Cappuccino Latte Ombe",
         price: "$12.6",
         brand: "Coffee",
-      } as any),
+      } as any)
     );
   };
 

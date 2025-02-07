@@ -88,7 +88,7 @@ const ButtonOutline = ({
               ...FONTS.fontMedium,
               textAlign: "center",
               //lineHeight:20,
-              fontSize: 12,
+              fontSize: 14,
               color: color ? color : COLORS.primary,
             },
             size === "sm" && {

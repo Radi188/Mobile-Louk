@@ -5,8 +5,9 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 
 import { COLORS, FONTS, SIZES } from "../../constants/theme";
 import { useTheme } from "@react-navigation/native";
+import { GlobalStyleSheet } from "../../constants/StyleSheet";
 
-const AccordionHighlight = () => {
+const AccordionHighlight = ({ data }: any) => {
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
 
@@ -15,87 +16,127 @@ const AccordionHighlight = () => {
     setActiveSections(sections.includes(undefined) ? [] : sections);
   };
 
-  const SECTIONS = [
-    {
-      title: "Who Can Benefit from Ecommerce?",
-      content:
-        "Global Reach: Ecommerce allows businesses to reach a global customer base. With an online store, you can sell your products or services to customers anywhere in the world.",
-    },
-    {
-      title: "10 Ways to Maximize Your Profits.",
-      content:
-        "Global Reach: Ecommerce allows businesses to reach a global customer base. With an online store, you can sell your products or services to customers anywhere in the world.",
-    },
-    {
-      title: "Exploring the Benefits of Ecommerce",
-      content:
-        "Global Reach: Ecommerce allows businesses to reach a global customer base. With an online store, you can sell your products or services to customers anywhere in the world.",
-    },
-    {
-      title: "The Impact of Ecommerce on Business",
-      content:
-        "Global Reach: Ecommerce allows businesses to reach a global customer base. With an online store, you can sell your products or services to customers anywhere in the world.",
-    },
-  ];
+  function isProperCurrencyFormat(input: any) {
+    // Regular expression to check if the string is in 'XX.XX' format
+    const currencyRegex = /^\d+(\.\d{1,2})$/;
+
+    return currencyRegex.test(input);
+  }
 
   const AccordionHeader = (item: any, _: any, isActive: any) => {
     return (
       <View
         style={{
+          width: "100%",
           flexDirection: "row",
           alignItems: "center",
-          paddingVertical: 10,
+          paddingVertical: 15,
           paddingHorizontal: 15,
           borderRadius: SIZES.radius_sm,
-          backgroundColor: isActive ? COLORS.primary : colors.background,
+          backgroundColor: isActive ? COLORS.primary : COLORS.primaryLight,
         }}
       >
         <Text
           style={[
-            FONTS.fontSm,
             FONTS.fontMedium,
-            { color: isActive ? COLORS.card : colors.title, flex: 1 },
+            { color: isActive ? COLORS.card : colors.title, width: "85%" },
           ]}
         >
           {item.title}
         </Text>
         <View
           style={[
+            GlobalStyleSheet.flex,
             {
-              height: 24,
-              width: 24,
-              backgroundColor: colors.card,
+              backgroundColor: COLORS.primaryLight,
               borderRadius: 24,
-              alignItems: "center",
-              justifyContent: "center",
+              gap: 10,
             },
             isActive && {
-              backgroundColor: "rgba(255,255,255,.9)",
+              backgroundColor: COLORS.primary,
             },
           ]}
         >
-          <FeatherIcon
-            size={20}
-            color={
-              isActive
-                ? COLORS.title
-                : theme.dark
+          <TouchableOpacity>
+            <FeatherIcon
+              size={20}
+              color={
+                isActive
+                  ? COLORS.primaryLight
+                  : theme.dark
                   ? "rgba(255,255,255,0.5)"
-                  : "rgba(0,0,0,.5)"
-            }
-            name={isActive ? "minus" : "plus"}
-          />
-          {/* <FeatherIcon size={18} color={isActive ? COLORS.white : colors.title} name={isActive ? 'minus' : 'plus'}/> */}
+                  : COLORS.primary
+              }
+              name={"edit-2"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FeatherIcon
+              size={20}
+              color={
+                isActive
+                  ? COLORS.warning
+                  : theme.dark
+                  ? "rgba(255,255,255,0.5)"
+                  : COLORS.danger
+              }
+              name={"trash-2"}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
   };
   const AccordionBody = (item: any, _: any, isActive: any) => {
     return (
-      <View style={{ marginBottom: 15, marginTop: 10, paddingHorizontal: 15 }}>
-        <Text style={[FONTS.fontXs, { color: colors.text, lineHeight: 20 }]}>
-          {item.content}
-        </Text>
+      <View
+        style={{
+          width: "100%",
+          marginBottom: 15,
+          marginTop: 10,
+          paddingHorizontal: 15,
+          gap: 5,
+        }}
+      >
+        {Object.keys(item.content).map((label, index) => {
+          if (label !== "_id" && label !== "__v" && label !== "categoryID") {
+            return (
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Text
+                  style={[
+                    FONTS.fontSm,
+                    FONTS.fontSemiBold,
+                    { width: "100%", color: colors.text, lineHeight: 20 },
+                  ]}
+                >
+                  {label
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
+                  :{"  "}
+                  <Text
+                    style={[
+                      FONTS.fontSm,
+                      { width: "100%", color: colors.text, lineHeight: 20 },
+                    ]}
+                  >
+                    {item.content[label] == true
+                      ? "Enabled"
+                      : item.content[label] == false
+                      ? "Disbaled"
+                      : item.content[label]}
+                    {isProperCurrencyFormat(item.content[label]) && "$"}
+                  </Text>
+                </Text>
+              </View>
+            );
+          }
+        })}
       </View>
     );
   };
@@ -103,8 +144,8 @@ const AccordionHighlight = () => {
   return (
     <>
       <Accordion
-        sections={SECTIONS}
-        sectionContainerStyle={{ marginBottom: 6 }}
+        sections={data}
+        sectionContainerStyle={{ marginBottom: 10 }}
         duration={300}
         activeSections={activeSections}
         onChange={setSections}

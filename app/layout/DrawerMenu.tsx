@@ -20,56 +20,61 @@ const MenuItems = [
     id: "1",
     icon: IMAGES.producta,
     name: "Item Stock",
-    navigate: "Products",
+    navigate: "StandardList",
+    url: "Product/List",
   },
   {
     id: "2",
     icon: IMAGES.Category,
     name: "Category",
-    navigate: "Components",
+    navigate: "StandardList",
+    url: "Category/List",
   },
   {
     id: "3",
     icon: IMAGES.deliverytruck2,
     name: "Purchase Stock",
-    navigate: "Writereview",
+    navigate: "StandardList",
+    url: "PurhcaseStock/List",
   },
-  {
-    id: "4",
-    icon: IMAGES.Bag,
-    name: "Other Expense",
-    navigate: "Wishlist",
-  },
-  {
-    id: "6",
-    icon: IMAGES.shopping,
-    name: "Transaction",
-    navigate: "MyCart",
-  },
+
   {
     id: "8",
     icon: IMAGES.wallet,
     name: "Account Recievable",
-    navigate: "Profile",
+    navigate: "StandardList",
+    url: "AccountRecievable/List",
   },
   {
     id: "11",
     icon: IMAGES.transfer,
     name: "Account Payable",
-    navigate: "Profile",
+    navigate: "StandardList",
+    url: "AccountPayable/List",
   },
+
   {
     id: "10",
-    icon: IMAGES.user3,
+    icon: IMAGES.Star4,
     name: "Agency Coin",
-    navigate: "Profile",
+    navigate: "StandardList",
+    url: "Agency/List",
+  },
+  {
+    id: "12",
+    icon: IMAGES.user3,
+    name: "User Management",
+    navigate: "StandardList",
+    url: "Auth/List",
   },
   {
     id: "7",
     icon: IMAGES.folder,
     name: "Report",
-    navigate: "Chat",
+    navigate: "StandardList",
+    url: "Report/List",
   },
+
   {
     id: "9",
     icon: IMAGES.logout,
@@ -139,7 +144,10 @@ const DrawerMenu = () => {
                   data.navigate === "DrawerNavigation"
                     ? dispatch(closeDrawer())
                     : dispatch(closeDrawer());
-                  navigation.navigate(data.navigate);
+                  navigation.navigate(data.navigate, {
+                    url: data.url,
+                    header: data.name,
+                  });
                 }}
                 key={index}
                 style={[

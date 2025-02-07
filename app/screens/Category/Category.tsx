@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../layout/Header";
 import { useTheme } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -14,174 +14,117 @@ import { RootStackParamList } from "../../navigation/RootStackParamList";
 import { COLORS, FONTS } from "../../constants/theme";
 import { GlobalStyleSheet } from "../../constants/StyleSheet";
 import { IMAGES } from "../../constants/Images";
+import AccordionHighlight from "../../components/Accordion/AccordionHighlight";
+import fetchData from "../../api/fetchdata";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 //import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+
+const SECTIONS = [
+  {
+    title: "Coins 1$",
+    content: {
+      Description: "Testing",
+    },
+  },
+  {
+    title: "Coins 5$",
+    content: {
+      Description: "Testing",
+    },
+  },
+  {
+    title: "Coins 10$",
+    content: {
+      Description: "Testing",
+    },
+  },
+  {
+    title: "Coins 20$",
+    content: {
+      Description: "Testing",
+    },
+  },
+
+  {
+    title: "Coins 50$",
+    content: {
+      Description: "Testing",
+    },
+  },
+  {
+    title: "Coins 100$",
+    content: {
+      Description: "Testing",
+    },
+  },
+  {
+    title: "Coins Cut Stock",
+    content: {
+      Description: "Testing",
+    },
+  },
+];
 
 type CategoryScreenProps = StackScreenProps<RootStackParamList, "Category">;
 
 const Category = ({ navigation }: CategoryScreenProps) => {
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
+  const [data, setData] = useState<any>({});
 
-  const [currentindex, setcurrentindex] = useState(0);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const res = await fetchData("Category/List");
+    console.log(res);
+    if (res.status === 200) {
+      setData(res);
+    }
+  };
 
   return (
     <View style={{ backgroundColor: colors.background, flex: 1 }}>
-      <Header title="Categories" leftIcon="back" rightIcon1={"search"} />
-      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
-        <View style={[GlobalStyleSheet.container]}>
-          <View style={GlobalStyleSheet.flex}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={[GlobalStyleSheet.col50]}
-              onPress={() => navigation.navigate("Products")}
+      <Header
+        title="Categories"
+        leftIcon="back"
+        rightIcon5={"plus"}
+        onPress5={() => navigation.navigate("InsertItemStock")}
+      />
+      {Object.keys(data).length > 0 && (
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}>
+          {data.content ? (
+            <View style={GlobalStyleSheet.cardBody}>
+              <AccordionHighlight data={data?.content} />
+            </View>
+          ) : (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                paddingTop: 25,
+              }}
             >
-              <View>
-                <Image
-                  style={[styles.image, { aspectRatio: 1 / 1.3 }]}
-                  source={IMAGES.item5}
-                />
-                <View style={[styles.imageoverlay, { aspectRatio: 1 / 1.3 }]}>
-                  <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                    Mountain
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <View style={[GlobalStyleSheet.col50]}>
-              <View
+              <AntDesign
+                name={"filetext1"}
+                size={72}
+                color={COLORS.secondary}
+              />
+              <Text
                 style={{
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  height: undefined,
-                  width: "100%",
-                  aspectRatio: 1 / 1.3,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 10,
+                  fontSize: 20,
+                  fontWeight: "700",
+                  color: COLORS.label,
+                  paddingTop: 10,
                 }}
               >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => navigation.navigate("Products")}
-                >
-                  <Image
-                    style={[styles.image, { aspectRatio: 1 / 0.62 }]}
-                    source={IMAGES.item6}
-                  />
-                  <View
-                    style={[styles.imageoverlay, { aspectRatio: 1 / 0.62 }]}
-                  >
-                    <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                      Men
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => navigation.navigate("Products")}
-                >
-                  <Image
-                    style={[styles.image, { aspectRatio: 1 / 0.62 }]}
-                    source={IMAGES.item7}
-                  />
-                  <View
-                    style={[styles.imageoverlay, { aspectRatio: 1 / 0.62 }]}
-                  >
-                    <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                      Sports
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
+                No {data?.header} item{" "}
+              </Text>
             </View>
-          </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 5,
-            }}
-          >
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{ width: "100%", marginVertical: 10 }}
-              onPress={() => navigation.navigate("Products")}
-            >
-              <Image
-                style={[styles.image, { aspectRatio: 1 / 0.3 }]}
-                source={IMAGES.item8}
-              />
-              <View style={[styles.imageoverlay, { aspectRatio: 1 / 1.3 }]}>
-                <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                  Women
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={[GlobalStyleSheet.col50]}
-              onPress={() => navigation.navigate("Products")}
-            >
-              <View>
-                <Image
-                  style={[styles.image, { aspectRatio: 1 / 1 }]}
-                  source={IMAGES.item9}
-                />
-                <View style={[styles.imageoverlay, { aspectRatio: 1 / 1 }]}>
-                  <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                    Kids-Bicycles
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={[GlobalStyleSheet.col50]}
-              onPress={() => navigation.navigate("Products")}
-            >
-              <View>
-                <Image
-                  style={[
-                    styles.image,
-                    { aspectRatio: 1 / 1, borderRadius: 250 },
-                  ]}
-                  source={IMAGES.item4}
-                />
-                <View style={[styles.imageoverlay, { borderRadius: 250 }]}>
-                  <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                    Classic
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 5,
-            }}
-          >
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{ width: "100%", marginVertical: 10 }}
-              onPress={() => navigation.navigate("Products")}
-            >
-              <Image
-                style={[styles.image, { aspectRatio: 1 / 0.5 }]}
-                source={IMAGES.item10}
-              />
-              <View style={[styles.imageoverlay, { aspectRatio: 1 / 0.5 }]}>
-                <Text style={[styles.imageTitle2, { color: COLORS.card }]}>
-                  Geared Cycles
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 };

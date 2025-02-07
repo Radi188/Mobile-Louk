@@ -9,6 +9,8 @@ import {
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { COLORS, SIZES, FONTS } from "../../constants/theme";
 import { useTheme } from "@react-navigation/native";
+import { updateFormValue } from "../../redux/reducer/formValueReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 type Props = {
   placeholder?: string;
@@ -31,6 +33,13 @@ type Props = {
   text?: any;
   isFocused?: any;
   inputicon?: any;
+  isError?: any;
+  title: any;
+  inputType?: any;
+  onEndEdit?: any;
+  require?: any;
+  formUrl?: any;
+  item?: any;
 };
 
 const Input = ({
@@ -38,8 +47,7 @@ const Input = ({
   value,
   defaultValue,
   onChangeText,
-  onFocus,
-  onBlur,
+  // onBlur,
   type,
   numberOfLines,
   multiline,
@@ -52,13 +60,34 @@ const Input = ({
   inputBorder,
   text,
   keyboardType,
-  isFocused,
+  // isFocused,
   inputicon,
+  isError,
+  title,
+  inputType,
+  onEndEdit,
+  require,
+  formUrl,
+  item,
 }: Props) => {
   const [showPass, setShowPass] = useState<boolean>(true);
-
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
+  const dispatch = useDispatch();
+
+  const _onChangeText = (value: any) => {
+    dispatch(updateFormValue({ key: item.key, value, formUrl }));
+  };
+
+  const [isFocused, setIsFocused] = useState(false);
+
+  const onFocus = () => {
+    setIsFocused(true);
+  };
+
+  const onBlur = () => {
+    setIsFocused(false);
+  };
 
   return (
     <View>
@@ -90,7 +119,22 @@ const Input = ({
           {icon}
         </View>
       )}
+      <Text style={styles.title}>
+        {title}
+        {require && (
+          <Text
+            style={{
+              color: COLORS.danger,
+              fontSize: 18,
+            }}
+          >
+            {" "}
+            *
+          </Text>
+        )}
+      </Text>
       <TextInput
+        onEndEditing={onEndEdit}
         style={[
           styles.input,
           {
@@ -125,6 +169,9 @@ const Input = ({
           style && {
             ...style,
           },
+          isError && {
+            borderColor: COLORS.danger,
+          },
           isFocused && {
             borderColor: COLORS.primary,
           },
@@ -134,17 +181,17 @@ const Input = ({
         value={value}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        onChangeText={onChangeText}
+        onChangeText={inputBorder ? onChangeText : _onChangeText}
         onFocus={onFocus}
-        keyboardType={keyboardType}
+        keyboardType={inputType}
         onBlur={onBlur}
         numberOfLines={numberOfLines}
         placeholderTextColor={
           inputBorder
             ? COLORS.text
             : theme.dark
-              ? "rgba(255,255,255,.5)"
-              : "#666666"
+            ? "rgba(255,255,255,.5)"
+            : "#666666"
         }
       />
       {text && (
@@ -181,8 +228,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.03)",
     borderRadius: 8,
     paddingHorizontal: 15,
-    //paddingLeft:0,
-    // paddingVertical:0,
     borderWidth: 1,
     borderColor: COLORS.inputborder,
     color: COLORS.title,
@@ -196,6 +241,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
+  },
+  title: {
+    ...FONTS.fontRegular,
+    fontSize: 16,
+    color: COLORS.title,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

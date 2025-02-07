@@ -26,6 +26,8 @@ type Props = {
   rightIcon2?: any;
   rightIcon3?: string;
   rightIcon4?: any;
+  rightIcon5?: any;
+  onPress5?: any;
 };
 
 const Header = ({
@@ -41,6 +43,8 @@ const Header = ({
   rightIcon4,
   rightIcon2,
   rightIcon3,
+  rightIcon5,
+  onPress5,
 }: Props) => {
   const theme = useTheme();
   const { colors }: { colors: any } = theme;
@@ -64,7 +68,7 @@ const Header = ({
           borderBottomWidth: 0,
         },
         Platform.OS === "ios" && {
-          backgroundColor: colors.card,
+          backgroundColor: COLORS.primary,
         },
       ]}
     >
@@ -94,9 +98,6 @@ const Header = ({
                 ...FONTS.fontMedium,
                 fontSize: 24,
                 color: colors.title,
-                textAlign: titleLeft ? "left" : "center",
-                paddingLeft: titleLeft2 ? 10 : 10,
-                paddingRight: titleRight ? 20 : 0,
               }}
             >
               <Text style={{ color: COLORS.primary }}>e</Text>Bike
@@ -106,10 +107,8 @@ const Header = ({
               style={{
                 ...FONTS.fontSemiBold,
                 fontSize: 20,
-                color: colors.title,
-                textAlign: titleLeft ? "left" : "center",
-                paddingLeft: titleLeft2 ? 10 : 10,
-                paddingRight: titleRight ? 40 : 0,
+                color: COLORS.white,
+                textAlign: "center",
               }}
             >
               {title}
@@ -158,6 +157,18 @@ const Header = ({
             <FontAwesome size={22} color={colors.title} name={"home"} />
           </TouchableOpacity>
         )}
+        {rightIcon5 == "plus" ? (
+          <TouchableOpacity
+            onPress={onPress5}
+            style={[styles.actionBtn, { backgroundColor: COLORS.success }]}
+          >
+            <Feather size={24} color={COLORS.white} name={"plus"} />
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={[styles.actionBtn, { backgroundColor: COLORS.primary }]}
+          />
+        )}
       </View>
     </View>
   );
@@ -181,10 +192,13 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor:COLORS.card
-    // position:'absolute',
-    // left:10,
-    // top:10,
+  },
+  actionBtnRight: {
+    height: 45,
+    width: 45,
+    borderRadius: 45,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

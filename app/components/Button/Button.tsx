@@ -26,8 +26,8 @@ const Button = ({ title, onPress, color, style, size, text }: Props) => {
             borderRadius: 4,
           },
           size === "lg" && {
-            height: 55,
-            paddingHorizontal: 30,
+            height: 75,
+            paddingHorizontal: 15,
           },
           style && { ...style },
         ]}

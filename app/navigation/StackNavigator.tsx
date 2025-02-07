@@ -57,6 +57,16 @@ import SwipeableScreen from "../screens/Components/Swipeable";
 import Tabs from "../screens/Components/Tabs";
 import Tables from "../screens/Components/Tables";
 import Toggles from "../screens/Components/Toggles";
+import Transaction from "../screens/Transaction/Transaction";
+import FinancialStatement from "../screens/Financial/FinancialStatement";
+import Sale from "../screens/Sale/Sale";
+import ItemStock from "../screens/ItemStock/ItemStock";
+import Category from "../screens/Category/Category";
+import Home from "../screens/Home/Home";
+import InsertItemStock from "../screens/ItemStock/InsertItemStock";
+import PurchaseStock from "../screens/PurchaseStock/PurchaseStock";
+import StandardForm from "../screens/StandardForm/StandardForm";
+import StandardList from "../screens/StandardList/StandardList";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -66,7 +76,7 @@ const StackNavigator = () => {
   return (
     <View style={{ width: "100%", flex: 1 }}>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="SingIn"
         screenOptions={{
           headerShown: false,
           cardStyle: { backgroundColor: "transparent" },
@@ -74,6 +84,8 @@ const StackNavigator = () => {
         }}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="PurchaseStock" component={PurchaseStock} />
+        <Stack.Screen name="InsertItemStock" component={InsertItemStock} />
         <Stack.Screen name="WelCome" component={WelCome} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SingIn" component={SingIn} />
@@ -87,11 +99,20 @@ const StackNavigator = () => {
         <Stack.Screen name="Products" component={Products} />
         <Stack.Screen name="ProductsDetails" component={ProductsDetails} />
         <Stack.Screen name="DeliveryAddress" component={DeliveryAddress} />
+        <Stack.Screen name="ItemStock" component={ItemStock} />
+        <Stack.Screen name="StandardForm" component={StandardForm} />
+        <Stack.Screen name="StandardList" component={StandardList} />
         <Stack.Screen
           name="AddDeliveryAddress"
           component={AddDeliveryAddress}
         />
         <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="Sale" component={Sale} />
+        <Stack.Screen name="Transaction" component={Transaction} />
+        <Stack.Screen
+          name="FinancialStatement"
+          component={FinancialStatement}
+        />
         <Stack.Screen name="Addcard" component={Addcard} />
         <Stack.Screen name="Checkout" component={Checkout} />
         <Stack.Screen name="Myorder" component={Myorder} />
@@ -127,6 +148,7 @@ const StackNavigator = () => {
         <Stack.Screen name="Tabs" component={Tabs} />
         <Stack.Screen name="Tables" component={Tables} />
         <Stack.Screen name="Toggles" component={Toggles} />
+        <Stack.Screen name="Category" component={Category} />
       </Stack.Navigator>
     </View>
   );

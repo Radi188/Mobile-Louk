@@ -169,8 +169,6 @@ const Products = ({ navigation }: ProductsScreenProps) => {
               tabStyle={{ width: 185 }}
               style={{
                 backgroundColor: colors.card,
-                //borderBottomWidth: 1,
-                //borderBottomColor:'#F0F0F0',
                 paddingVertical: 0,
                 paddingTop: 5,
               }}

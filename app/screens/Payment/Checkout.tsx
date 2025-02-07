@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,11 @@ import { COLORS, FONTS } from "../../constants/theme";
 import Button from "../../components/Button/Button";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigation/RootStackParamList";
+import { useSelector } from "react-redux";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import SwipeCheckout from "../../components/SwipeCheckout";
+import Input from "../../components/Input/Input";
+import Select from "../../components/Input/Select";
 
 const checkoutData = [
   {
@@ -35,9 +40,17 @@ const checkoutData = [
 
 type CheckoutScreenProps = StackScreenProps<RootStackParamList, "Checkout">;
 
-const Checkout = ({ navigation }: CheckoutScreenProps) => {
+const Checkout = ({ navigation, route }: CheckoutScreenProps) => {
   const theme = useTheme();
+  const { accountrecievable }: any = route.params;
   const { colors }: { colors: any } = theme;
+  const checkoutItem = useSelector((state: any) => state.checkout.checkoutItem);
+  const totalPrice = checkoutItem.reduce(
+    (acc: any, item: any) => acc + item.price * item.quantity,
+    0
+  );
+  const [coinData, setCoinData] = useState<any>({ name: "martin" });
+  const [modalShow, setModal] = useState<boolean>(true);
 
   return (
     <View style={{ backgroundColor: colors.background, flex: 1 }}>
@@ -54,118 +67,104 @@ const Checkout = ({ navigation }: CheckoutScreenProps) => {
             { paddingTop: 5, marginTop: 10, flex: 1 },
           ]}
         >
-          {checkoutData.map((data: any, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate(data.navigate)}
-                style={[
-                  styles.AddressCard,
-                  {
-                    backgroundColor: colors.card,
-                  },
-                ]}
-                key={index}
-              >
+          <GestureHandlerRootView>
+            {checkoutItem.map((data: any, index: any) => {
+              return (
                 <View
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 10,
-                    flex: 1,
+                    marginBottom: 15,
                   }}
+                  key={index}
                 >
-                  <View
-                    style={[
-                      styles.AddressCardimage,
-                      { backgroundColor: COLORS.primaryLight },
-                    ]}
-                  >
-                    <Image
-                      style={[
-                        GlobalStyleSheet.image2,
-                        { tintColor: COLORS.title },
-                      ]}
-                      source={data.image}
-                    />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text
-                      style={{
-                        ...FONTS.fontRegular,
-                        fontSize: 14,
-                        color: colors.title,
-                      }}
-                    >
-                      {data.title}
-                    </Text>
-                    <Text
-                      style={{
-                        ...FONTS.fontLight,
-                        fontSize: 11,
-                        color: colors.text,
-                      }}
-                    >
-                      {data.text}
-                    </Text>
-                  </View>
+                  <SwipeCheckout data={data} colors={colors} />
                 </View>
-                <Feather size={24} color={colors.title} name={"arrow-right"} />
-                {/* <Ionicons color={colors.title} name='chevron-forward' size={20}/> */}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <View style={[GlobalStyleSheet.container, { paddingBottom: 0 }]}>
-          <View style={[styles.bottomCard, { backgroundColor: colors.card }]}>
-            <View style={{ paddingVertical: 5 }}>
-              <Text style={[styles.title1, { color: colors.title }]}>
-                Price Details
-              </Text>
-            </View>
-            <View style={styles.card}>
-              <View style={GlobalStyleSheet.flex}>
-                <Text style={[styles.title2, { color: colors.title }]}>
-                  Price (5 Items)
-                </Text>
-                <Text style={[styles.title2, { color: colors.title }]}>
-                  $21299
-                </Text>
-              </View>
-              <View style={[GlobalStyleSheet.flex, { paddingVertical: 10 }]}>
-                <Text style={[styles.title2, { color: colors.title }]}>
-                  Discount
-                </Text>
-                <Text style={[styles.title2, { color: colors.title }]}>
-                  $4000
-                </Text>
-              </View>
-              <View style={GlobalStyleSheet.flex}>
-                <Text style={[styles.title2, { color: colors.title }]}>
-                  Delivery Charges
-                </Text>
-                <Text
-                  style={{
-                    ...FONTS.fontRegular,
-                    fontSize: 12,
-                    color: "#8ABE12",
-                  }}
-                >
-                  Free Delivery
-                </Text>
-              </View>
-            </View>
-            <View style={[GlobalStyleSheet.flex, { paddingVertical: 5 }]}>
-              <Text style={[styles.title1, { color: colors.title }]}>
-                Total Amount
-              </Text>
-              <Text style={[styles.title1, { color: "#8ABE12" }]}>$17299</Text>
-            </View>
-          </View>
+              );
+            })}
+          </GestureHandlerRootView>
         </View>
       </ScrollView>
-      <View style={[GlobalStyleSheet.container]}>
+      <View style={[GlobalStyleSheet.container, { paddingBottom: 0 }]}>
+        <View style={[styles.bottomCard, { backgroundColor: colors.card }]}>
+          <View style={{ paddingVertical: 5 }}>
+            <Text style={[styles.title1, { color: colors.title }]}>
+              Price Details
+            </Text>
+          </View>
+          <View style={[GlobalStyleSheet.flex, { gap: 15 }]}>
+            <View style={{ width: "50%" }}>
+              <Text
+                style={[
+                  styles.title2,
+                  { color: colors.title, marginBottom: 5 },
+                ]}
+              >
+                Agency
+              </Text>
+              <View style={{ marginBottom: 15, marginTop: 5, width: "100%" }}>
+                <Select
+                  modal={setModal}
+                  defaultText={"Agency"}
+                  value={coinData.name}
+                />
+              </View>
+            </View>
+            {accountrecievable && (
+              <View style={{ width: "50%" }}>
+                <Text
+                  style={[
+                    styles.title2,
+                    { color: colors.title, marginBottom: 5 },
+                  ]}
+                >
+                  Customer
+                </Text>
+                <View style={{ marginBottom: 15, marginTop: 5, width: "100%" }}>
+                  <Select
+                    modal={setModal}
+                    defaultText={"Customer"}
+                    value={coinData.name}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+          <View>
+            <View style={GlobalStyleSheet.flex}>
+              <Text style={[styles.title2, { color: colors.title }]}>
+                Price ({checkoutItem.length} Items)
+              </Text>
+              <Text style={[styles.title2, { color: colors.title }]}>
+                ${totalPrice}
+              </Text>
+            </View>
+            <View style={[GlobalStyleSheet.flex, { paddingVertical: 5 }]}>
+              <Text style={[styles.title2, { color: colors.title }]}>
+                Discount Amount
+              </Text>
+              <Text style={[styles.title2, { color: colors.title }]}>$0</Text>
+            </View>
+          </View>
+          <View style={[GlobalStyleSheet.flex, { paddingVertical: 5 }]}>
+            <Text style={[styles.title1, { color: colors.title }]}>
+              Total Amount
+            </Text>
+            <Text style={[styles.title1, { color: "#8ABE12" }]}>
+              ${totalPrice}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={[GlobalStyleSheet.container, GlobalStyleSheet.flex]}>
         <Button
-          title="Submit Order"
+          title="Order"
+          color={COLORS.primary}
+          text={COLORS.card}
+          onPress={() => navigation.navigate("Myorder")}
+          style={{ borderRadius: 48 }}
+        />
+        <Button
+          title="Order and Printing"
           color={COLORS.primary}
           text={COLORS.card}
           onPress={() => navigation.navigate("Myorder")}
@@ -177,6 +176,11 @@ const Checkout = ({ navigation }: CheckoutScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  icon: {
+    height: 28,
+    width: 28,
+    resizeMode: "contain",
+  },
   AddressCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -185,8 +189,6 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 15,
     marginBottom: 10,
-    //paddingBottom: 15,
-    //marginTop: 15
   },
   AddressCardimage: {
     height: 50,

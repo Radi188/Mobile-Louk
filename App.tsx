@@ -32,9 +32,10 @@ export default function App() {
         style={{
           flex: 1,
           paddingTop: 50,
+          backgroundColor: COLORS.primary,
         }}
       >
-        <StatusBar style={"dark"} />
+        <StatusBar style={"light"} />
         <Provider store={store}>
           <Route />
         </Provider>

@@ -46,7 +46,7 @@ const Search = ({ navigation }: any) => {
 
   const removeItem2 = (indexToRemove: number) => {
     setshow((prevItems) =>
-      prevItems.filter((item, index) => index !== indexToRemove),
+      prevItems.filter((item, index) => index !== indexToRemove)
     );
   };
 
@@ -63,12 +63,6 @@ const Search = ({ navigation }: any) => {
         ]}
       >
         <View style={[GlobalStyleSheet.row, { alignItems: "center", gap: 10 }]}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={[styles.searchCard, { backgroundColor: "#F6F6F6" }]}
-          >
-            <FeatherIcon size={24} color={COLORS.title} name={"arrow-left"} />
-          </TouchableOpacity>
           <View style={{ flex: 1 }}>
             <TextInput
               placeholder="Search Best items for You"

@@ -74,4 +74,12 @@ export type RootStackParamList = {
   TabStyle2: undefined;
   TabStyle3: undefined;
   TabStyle4: undefined;
+  Transaction: undefined;
+  FinancialStatement: undefined;
+  Sale: undefined;
+  ItemStock: undefined;
+  InsertItemStock: undefined;
+  PurchaseStock: undefined;
+  StandardForm: undefined;
+  StandardList: undefined;
 };

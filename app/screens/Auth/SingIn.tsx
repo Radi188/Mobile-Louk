@@ -16,6 +16,7 @@ import { RootStackParamList } from "../../navigation/RootStackParamList";
 import Input from "../../components/Input/Input";
 import { IMAGES } from "../../constants/Images";
 import Button from "../../components/Button/Button";
+import fetchData from "../../api/fetchdata";
 
 type SingInScreenProps = StackScreenProps<RootStackParamList, "SingIn">;
 
@@ -25,6 +26,35 @@ const SingIn = ({ navigation }: SingInScreenProps) => {
 
   const [isFocused, setisFocused] = useState(false);
   const [isFocused2, setisFocused2] = useState(false);
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("test123");
+  const [isError, setIsError] = useState(false);
+  const [errorInput, setErrorInput] = useState("");
+
+  const loginOnline = async () => {
+    try {
+      const data: any = {
+        email: email,
+        password: password,
+      };
+
+      const res = await fetchData("/auth/login", data);
+      console.log(res);
+      if (res.status === 200) {
+        navigation.navigate("DrawerNavigation", { screen: "Home" });
+      } else if (res.statusCode === 400) {
+        setIsError(true);
+        if (password && email) {
+          setErrorInput("password must be longer than 6");
+        } else {
+          setErrorInput("This Field is Require");
+        }
+      } else {
+        setIsError(true);
+        setErrorInput("Invalid Email and password");
+      }
+    } catch (error) {}
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.card }}>
@@ -74,11 +104,16 @@ const SingIn = ({ navigation }: SingInScreenProps) => {
               <Input
                 onFocus={() => setisFocused(true)}
                 onBlur={() => setisFocused(false)}
-                onChangeText={(value) => console.log(value)}
+                onChangeText={(value) => setEmail(value)}
                 isFocused={isFocused}
                 inputBorder
-                defaultValue="williamsmith"
+                isError={isError}
               />
+              {isError && (
+                <Text style={{ paddingTop: 5, color: COLORS.danger }}>
+                  {errorInput}
+                </Text>
+              )}
             </View>
             <View style={[GlobalStyleSheet.container, { padding: 0 }]}>
               <Text style={[styles.title3, { color: "#8A8A8A" }]}>
@@ -90,20 +125,23 @@ const SingIn = ({ navigation }: SingInScreenProps) => {
                 onFocus={() => setisFocused2(true)}
                 onBlur={() => setisFocused2(false)}
                 backround={colors.card}
-                onChangeText={(value) => console.log(value)}
+                onChangeText={(value) => setPassword(value)}
                 isFocused={isFocused2}
                 type={"password"}
                 inputBorder
-                defaultValue="123456789"
+                isError={isError}
               />
+              {isError && (
+                <Text style={{ paddingTop: 5, color: COLORS.danger }}>
+                  {errorInput}
+                </Text>
+              )}
             </View>
           </View>
           <View style={{ marginTop: 30 }}>
             <Button
               title={"LOGIN"}
-              onPress={() =>
-                navigation.navigate("DrawerNavigation", { screen: "Home" })
-              }
+              onPress={() => loginOnline()}
               style={{ borderRadius: 52 }}
             />
             <View

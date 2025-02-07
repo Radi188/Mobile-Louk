@@ -171,26 +171,18 @@ const BottomMenu = ({ state, navigation, descriptors }: Props) => {
                     source={
                       label === "Home"
                         ? IMAGES.Home
-                        : label === "Wishlist"
-                        ? IMAGES.heart2
-                        : label === "MyCart"
-                        ? IMAGES.shopping
+                        : label === "Transaction"
+                        ? IMAGES.transfer
+                        : label === "Sale"
+                        ? IMAGES.mycart
+                        : label === "FinancialStatement"
+                        ? IMAGES.dollar
                         : label === "Profile"
                         ? IMAGES.user3
-                        : label === "Components"
-                        ? IMAGES.components
                         : IMAGES.Home
                     }
                   />
                 </Animated.View>
-                {/* <Text
-                  style={[
-                    styles.navText,
-                    { color: colors.title, opacity: isFocused ? 0 : 1 },
-                  ]}
-                >
-                  {label}
-                </Text> */}
               </TouchableOpacity>
             </View>
           );

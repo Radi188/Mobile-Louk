@@ -12,8 +12,6 @@ const LikeBtn = ({ wishlist, onPress, inWishlist, id }: any) => {
   return (
     <Pressable
       accessible={true}
-      accessibilityLabel="Like Btn"
-      accessibilityHint="Like this item"
       onPress={() => (onPress ? onPress() : "")}
       style={{
         height: 30,
@@ -22,19 +20,7 @@ const LikeBtn = ({ wishlist, onPress, inWishlist, id }: any) => {
         justifyContent: "center",
       }}
     >
-      {inWishlist().includes(id) ? (
-        <FontAwesome
-          size={22}
-          color={wishlist ? "#81BAA6" : COLORS.danger}
-          name="heart"
-        />
-      ) : (
-        <FontAwesome
-          size={22}
-          color={wishlist ? COLORS.danger : "#81BAA6"}
-          name="heart"
-        />
-      )}
+      <FontAwesome size={22} color={COLORS.primary} name="plus" />
     </Pressable>
   );
 };

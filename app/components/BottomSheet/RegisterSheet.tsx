@@ -19,7 +19,7 @@ const RegisterSheet = ({ sheetRef }: Props) => {
     <ScrollView
       contentContainerStyle={[
         GlobalStyleSheet.container,
-        { padding: 0, flexGrow: 1 },
+        { padding: 0, flexGrow: 1, flex: 1 },
       ]}
     >
       <View

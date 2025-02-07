@@ -31,46 +31,55 @@ const SwipeData = [
     image: IMAGES.small1,
     title: "New Arrivals Alert!",
     date: "15 July 2024",
+    amount: "-20.00",
   },
   {
     image: IMAGES.small2,
     title: "Flash Sale Announcement",
     date: "15 July 2024",
+    amount: "20.00",
   },
   {
     image: IMAGES.brand5,
     title: "Exclusive Discounts Inside",
     date: "15 July 2024",
+    amount: "-30.00",
   },
   {
     image: IMAGES.small4,
     title: "Limited Stock - Act Fast!",
     date: "15 July 2024",
+    amount: "20.00",
   },
   {
     image: IMAGES.small5,
     title: "Get Ready to Shop",
     date: "15 July 2024",
+    amount: "-100.00",
   },
   {
     image: IMAGES.brand2,
     title: "Don't Miss Out on Savings",
     date: "15 July 2024",
+    amount: "200.00",
   },
   {
     image: IMAGES.small7,
     title: "Flash Sale Announcement",
     date: "15 July 2024",
+    amount: "120.00",
   },
   {
     image: IMAGES.brand3,
     title: "Don't Miss Out on Savings",
     date: "15 July 2024",
+    amount: "-50.00",
   },
   {
     image: IMAGES.brand1,
     title: "Get Ready to Shop",
     date: "15 July 2024",
+    amount: "-10.00",
   },
 ];
 
@@ -113,7 +122,7 @@ export const Home = ({ navigation }: HomeScreenProps) => {
     scrollViewHome.current.scrollTo({ x: i * SIZES.width - 60 });
 
   return (
-    <View style={{ backgroundColor: colors.card, flex: 1, paddingBottom: 80 }}>
+    <View style={{ backgroundColor: colors.card, flex: 1, paddingBottom: 60 }}>
       <View
         style={[
           GlobalStyleSheet.container,
@@ -189,11 +198,11 @@ export const Home = ({ navigation }: HomeScreenProps) => {
           </View>
         </View>
       </View>
-      <View style={{ marginVertical: 0 }}>
+      <View>
         <View
           style={[
-            GlobalStyleSheet.cardBody,
             {
+              paddingHorizontal: 15,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",

@@ -5,4 +5,7 @@ export type BottomTabParamList = {
   Category: undefined;
   Profile: undefined;
   Components: undefined;
+  Transaction: undefined;
+  FinancialStatement: undefined;
+  Sale: undefined;
 };

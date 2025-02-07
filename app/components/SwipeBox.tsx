@@ -65,6 +65,7 @@ export default class SwipeBox extends Component {
           style={{
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
             gap: 10,
             paddingHorizontal: 10,
             paddingVertical: 10,
@@ -72,30 +73,46 @@ export default class SwipeBox extends Component {
             borderRadius: 15,
           }}
         >
-          <Image
-            style={{ height: 45, width: 45, borderRadius: 10 }}
-            source={this.props.data.image}
-          />
-          <View>
-            <Text
-              style={{
-                ...FONTS.fontRegular,
-                fontSize: 14,
-                color: this.props.colors.title,
-              }}
-            >
-              {this.props.data.title}
-            </Text>
-            <Text
-              style={{
-                ...FONTS.fontRegular,
-                fontSize: 11,
-                color: this.props.colors.title,
-              }}
-            >
-              {this.props.data.date}
-            </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Image
+              style={{ height: 45, width: 45, borderRadius: 10 }}
+              source={this.props.data.image}
+            />
+            <View>
+              <Text
+                style={{
+                  ...FONTS.fontRegular,
+                  fontSize: 14,
+                  color: this.props.colors.title,
+                }}
+              >
+                {this.props.data.title}
+              </Text>
+              <Text
+                style={{
+                  ...FONTS.fontRegular,
+                  fontSize: 11,
+                  color: this.props.colors.title,
+                }}
+              >
+                {this.props.data.date}
+              </Text>
+            </View>
           </View>
+          {this.props.data.amount && (
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                color:
+                  this.props.data.amount > 0 ? COLORS.success : COLORS.danger,
+              }}
+            >
+              {this.props.data.amount > 0
+                ? `+$${this.props.data.amount}`
+                : `$${this.props.data.amount}`}
+            </Text>
+          )}
         </View>
       </Swipeable>
     );

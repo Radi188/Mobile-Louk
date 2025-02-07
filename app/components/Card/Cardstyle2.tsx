@@ -106,29 +106,16 @@ const Cardstyle2 = ({
           >
             {title}
           </Text>
-          {wishList ? (
-            <Text
-              style={{
-                ...FONTS.fontRegular,
-                fontSize: 12,
-                color: "#6A6A6A",
-                marginTop: 5,
-              }}
-            >
-              Nescafé
-            </Text>
-          ) : (
-            <Text
-              style={{
-                ...FONTS.fontRegular,
-                fontSize: 12,
-                color: "#6A6A6A",
-                marginTop: 5,
-              }}
-            >
-              {brand}
-            </Text>
-          )}
+          <Text
+            style={{
+              ...FONTS.fontRegular,
+              fontSize: 12,
+              color: "#6A6A6A",
+              marginTop: 5,
+            }}
+          >
+            {brand}
+          </Text>
         </View>
         <View
           style={[
@@ -139,18 +126,10 @@ const Cardstyle2 = ({
           <Text
             style={{ ...FONTS.fontSemiBold, fontSize: 18, color: colors.title }}
           >
-            {price}
+            ${price}
           </Text>
           <View>
-            {writeReview ? null : (
-              <LikeBtn
-                onPress={
-                  inWishlist().includes(id) ? removeItemFromWishList : onPress2
-                }
-                id={id}
-                inWishlist={inWishlist}
-              />
-            )}
+            <LikeBtn onPress={onPress2} id={id} inWishlist={inWishlist} />
           </View>
         </View>
       </View>

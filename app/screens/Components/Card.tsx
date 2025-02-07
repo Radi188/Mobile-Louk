@@ -23,6 +23,7 @@ const Card = ({
         shadowOpacity: 0.4,
         shadowRadius: 4,
         shadowOffset: 1,
+        shadowColor: COLORS.primary,
       }}
     >
       <View
@@ -38,7 +39,7 @@ const Card = ({
           </Text>
         </View>
         <Text
-          style={[styles.brandsubtitle2, { fontSize: 14, color: COLORS.title }]}
+          style={[styles.brandsubtitle2, { fontSize: 16, color: COLORS.title }]}
         >
           $ {amount}
         </Text>
@@ -53,13 +54,13 @@ const Card = ({
           <Text
             style={{
               color: percentage > 0 ? COLORS.success : COLORS.danger,
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: "600",
             }}
           >
-            %{percentage > 0 ? `+${percentage}` : percentage}
+            % {percentage}
           </Text>
-          <Text style={{ color: COLORS.label }}>
+          <Text style={{ color: COLORS.label, fontSize: 12 }}>
             {percentage > 0 ? "Increase" : "Decrease"}
           </Text>
         </View>
